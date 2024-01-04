@@ -8,6 +8,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class QuizzCreateComponent extends Component
 {
@@ -23,7 +24,11 @@ class QuizzCreateComponent extends Component
     public $grade_id;
     public $grades;
     #[Validate([
-        'answers' => 'required' , 
+        'answers' => 'nullable' , 
+        'answers.*' => [
+            'nullable',
+            'min:3',
+        ],
     ])] 
     public array $answers  = [
         1  => '',
@@ -55,7 +60,6 @@ class QuizzCreateComponent extends Component
     {
         $validated = $this->validate();
         // dd($validated);
-        // $quizz =  Quizz::create($validated);
         $quizz =  Quizz::create([
             'lo' => $this->lo, 
             'question' => $this->question ,
@@ -64,7 +68,8 @@ class QuizzCreateComponent extends Component
             'answer_3' => $this->answers[3] ,
             'answer_4' => $this->answers[4] , 
             'grade_id' => $this->grade_id , 
-            'correct_answer' => $this->correct_answer
+            'correct_answer' => $this->correct_answer , 
+            'added_by' => Auth::user()->name
         ]);
         $quizz->addMedia($this->image)->toMediaCollection();
         Notification::make()

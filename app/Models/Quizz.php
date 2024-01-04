@@ -22,7 +22,8 @@ class Quizz extends Model implements HasMedia
         'answer_3',
         'answer_4',
         'correct_answer',
-        'grade_id',
+        'grade_id', 
+        'added_by'
     ];
     /**
      * Scope a query to get grade for question.

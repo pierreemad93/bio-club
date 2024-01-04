@@ -55,7 +55,7 @@
                                     <td>
                                         {{ $quizz->grade->name }}
                                     </td>
-                                    <td></td>
+                                    <td>{{$quizz->added_by}}</td>
                                 </tr>
                             @endforeach
 
